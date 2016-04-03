@@ -1,0 +1,1401 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     59599,       1392]
+NotebookOptionsPosition[     58067,       1341]
+NotebookOutlinePosition[     58510,       1358]
+CellTagsIndexPosition[     58467,       1355]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ "An Elaborate Riemann Sum Demo\n",
+ StyleBox["This ", "Text",
+  FontSize->12,
+  FontWeight->"Plain"],
+ StyleBox["Mathematica", "Text",
+  FontSize->12,
+  FontWeight->"Plain",
+  FontSlant->"Italic"],
+ StyleBox[" notebook is an extension of the work in the notebook \
+RiemannSums.nb posted in the ", "Text",
+  FontSize->12,
+  FontWeight->"Plain"],
+ StyleBox[Cell[BoxData[
+  TagBox[
+   ButtonBox[
+    PaneSelectorBox[{False->"\<\"Mathematica part\"\>", True->
+     StyleBox["\<\"Mathematica part\"\>", "HyperlinkActive"]}, Dynamic[
+      CurrentValue["MouseOver"]],
+     BaseStyle->{"Hyperlink"},
+     BaselinePosition->Baseline,
+     FrameMargins->0,
+     ImageSize->Automatic],
+    BaseStyle->"Hyperlink",
+    ButtonData->{
+      URL["http://www.abstractmath.org/Mathematica/"], None},
+    ButtonNote->"http://www.abstractmath.org/Mathematica/"],
+   Annotation[#, "http://www.abstractmath.org/Mathematica/", "Hyperlink"]& ]],
+   "Text",
+  CellChangeTimes->{3.520283147145875*^9, 3.520283281833375*^9},
+  FontSize->12,
+  FontWeight->"Plain"], "Text"],
+ StyleBox[" of abstractmath.org.  It is produced by and is licensed under a ",
+   "Text",
+  FontSize->12,
+  FontWeight->"Plain"],
+ StyleBox[Cell[BoxData[
+  RowBox[{
+   TagBox[
+    ButtonBox[
+     PaneSelectorBox[{
+      False->"\<\"Creative Commons Attribution - ShareAlike 3.0 License\"\>", 
+      True->
+      StyleBox["\<\"Creative Commons Attribution - ShareAlike 3.0 \
+License\"\>", "HyperlinkActive"]}, Dynamic[
+       CurrentValue["MouseOver"]],
+      BaseStyle->{"Hyperlink"},
+      BaselinePosition->Baseline,
+      FrameMargins->0,
+      ImageSize->Automatic],
+     BaseStyle->"Hyperlink",
+     ButtonData->{
+       URL["http://creativecommons.org/licenses/by-sa/3.0/"], None},
+     ButtonNote->"http://creativecommons.org/licenses/by-sa/3.0/"],
+    Annotation[#, "http://creativecommons.org/licenses/by-sa/3.0/", 
+     "Hyperlink"]& ], " "}]], "Text",
+  CellChangeTimes->{{3.516312542019249*^9, 3.5163126250020304`*^9}},
+  FontSize->12,
+  FontWeight->"Plain"], "Text"],
+ StyleBox[", which makes it freely available for others to use, provided they \
+refer to this file. It is the source of the demos in the article An",
+  FontFamily->"Arial",
+  FontSize->12,
+  FontWeight->"Plain"],
+ StyleBox[ButtonBox[" Elaborate Riemann Sum Demo.",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://www.abstractmath.org/Word%20Press/?p=4362"], None},
+  ButtonNote->"http://www.abstractmath.org/Word%20Press/?p=4362"],
+  FontFamily->"Arial",
+  FontSize->12,
+  FontWeight->"Plain"]
+}], "Section",
+ CellChangeTimes->{{3.544957698041118*^9, 3.54495774269278*^9}, {
+  3.545235279460657*^9, 3.5452352909734697`*^9}, {3.5452353490262346`*^9, 
+  3.545235361585504*^9}, {3.545482142599247*^9, 3.545482189291918*^9}, {
+  3.545482295747718*^9, 3.545482332731492*^9}, {3.5454823865360017`*^9, 
+  3.5454823865560026`*^9}, {3.545482440915127*^9, 3.5454824488284235`*^9}, {
+  3.545482504171817*^9, 3.5454825268099947`*^9}, {3.6571078238271456`*^9, 
+  3.657107831315159*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Riemann Package (opened for modification)", "Section",
+ CellChangeTimes->{{3.482750361528*^9, 3.4827503673789997`*^9}, {
+  3.516747323523302*^9, 3.516747329992052*^9}}],
+
+Cell[TextData[{
+ "This package provides ",
+ StyleBox["PlotRiemann",
+  FontWeight->"Bold"],
+ ", which shows Riemann sum of a given integral with various choices of \
+parameters.  It is a work in progress. You are encouraged to improve this \
+work and to use it in your own publications and coursework.  "
+}], "Text",
+ CellChangeTimes->{{3.516711469484375*^9, 3.51671156396875*^9}, {
+   3.516722719273302*^9, 3.516722747304552*^9}, 3.516722867617052*^9, {
+   3.516722994617052*^9, 3.516723043304552*^9}, {3.516749294945177*^9, 
+   3.516749300492052*^9}, 3.657107805107113*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"SetOptions", "[", 
+    RowBox[{"Plot", ",", 
+     RowBox[{"AspectRatio", "\[Rule]", "Automatic"}]}], "]"}], ";"}], 
+  " "}]], "Input",
+ CellChangeTimes->{{3.482444309179576*^9, 3.4824443121965756`*^9}, {
+  3.482445727166*^9, 3.482445727509*^9}, {3.516711607703125*^9, 
+  3.516711615046875*^9}, {3.516747014101427*^9, 3.516747023351427*^9}, {
+  3.516747150585802*^9, 3.516747154710802*^9}, {3.5452613545408597`*^9, 
+  3.5452613571670103`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"PlotBounded", "[", 
+   RowBox[{"expression_", ",", "range_", ",", "options___"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "g", ",", "f", ",", "left", ",", "right", ",", "newleft", ",", 
+      "newright", ",", "var", ",", "leftheight", ",", "rightheight", ",", 
+      "width", ",", "newrange"}], "}"}], ",", 
+    RowBox[{
+     RowBox[{"var", "=", 
+      RowBox[{"range", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"f", "=", 
+      RowBox[{"Function", "[", 
+       RowBox[{
+        RowBox[{"Release", "[", "var", "]"}], ",", "expression"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"left", "=", 
+      RowBox[{"range", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"right", "=", 
+      RowBox[{"range", "[", 
+       RowBox[{"[", "3", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"width", "=", 
+      RowBox[{"right", "-", "left"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"leftheight", "=", 
+      RowBox[{"f", "[", "left", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"rightheight", "=", 
+      RowBox[{"f", "[", "right", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"newleft", "=", 
+      RowBox[{"left", "-", 
+       RowBox[{"0.25", "*", "width"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"newright", "=", 
+      RowBox[{"right", "+", 
+       RowBox[{"0.25", "*", "width"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"newrange", "=", 
+      RowBox[{"{", 
+       RowBox[{"var", ",", "newleft", ",", "newright"}], "}"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"g", ":=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"expression", ",", 
+        RowBox[{"Release", "[", "newrange", "]"}], ",", 
+        RowBox[{"DisplayFunction", "\[Rule]", "Identity"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"{", 
+           RowBox[{"RGBColor", "[", 
+            RowBox[{"0", ",", "0", ",", "1"}], "]"}], "}"}], "}"}]}], ",", 
+        "options"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Show", "[", 
+      RowBox[{"g", ",", 
+       RowBox[{"Graphics", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"Line", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"left", ",", "0"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"left", ",", "leftheight"}], "}"}]}], "}"}], "]"}], ",", 
+          RowBox[{"Line", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"right", ",", "0"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"right", ",", "rightheight"}], "}"}]}], "}"}], "]"}]}], 
+         "}"}], "]"}], ",", 
+       RowBox[{"DisplayFunction", "\[Rule]", "$DisplayFunction"}]}], 
+      "]"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.482444309179576*^9, 3.4824443121965756`*^9}, {
+   3.482445727166*^9, 3.482445727509*^9}, {3.516711607703125*^9, 
+   3.516711615046875*^9}, {3.516747014101427*^9, 3.516747023351427*^9}, 
+   3.516747150585802*^9, 3.516747272304552*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"RandomPartition", "[", 
+   RowBox[{"range_", ",", "mesh_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"u", "=", 
+       RowBox[{"range", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], ",", 
+      RowBox[{"top", "=", 
+       RowBox[{"range", "[", 
+        RowBox[{"[", "3", "]"}], "]"}]}], ",", 
+      RowBox[{"list", "=", 
+       RowBox[{"{", 
+        RowBox[{"range", "[", 
+         RowBox[{"[", "2", "]"}], "]"}], "}"}]}], ",", "v", ",", "newlist", 
+      ",", 
+      RowBox[{"actualmesh", "=", "0"}]}], "}"}], ",", 
+    RowBox[{
+     RowBox[{"While", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"u", "+", "mesh"}], "<", "top"}], ",", 
+       RowBox[{
+        RowBox[{"v", "=", 
+         RowBox[{"u", "+", 
+          RowBox[{"Random", "[", 
+           RowBox[{"Real", ",", "mesh"}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"actualmesh", "=", 
+         RowBox[{"Max", "[", 
+          RowBox[{"actualmesh", ",", 
+           RowBox[{"v", "-", "u"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"newlist", ":=", 
+         RowBox[{"Append", "[", 
+          RowBox[{"list", ",", "v"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"u", "=", "v"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"list", "=", "newlist"}]}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"partitionstring", "=", 
+      RowBox[{"StringJoin", "[", 
+       RowBox[{"\"\<Random partition with maximum norm \>\"", ",", 
+        RowBox[{"ToString", "[", "mesh", "]"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"actualmesh", "=", 
+      RowBox[{"Max", "[", 
+       RowBox[{"actualmesh", ",", 
+        RowBox[{"top", "-", 
+         RowBox[{"Last", "[", "list", "]"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Return", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Append", "[", 
+         RowBox[{"list", ",", "top"}], "]"}], ",", "actualmesh"}], "}"}], 
+      "]"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.482444309179576*^9, 3.4824443121965756`*^9}, {
+   3.482445727166*^9, 3.482445727509*^9}, {3.516711607703125*^9, 
+   3.516711615046875*^9}, {3.516747014101427*^9, 3.516747033304552*^9}, 
+   3.516747166913927*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"UniformPartition", "[", 
+   RowBox[{"range_", ",", "number_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"bottom", "=", 
+       RowBox[{
+        RowBox[{"range", "[", 
+         RowBox[{"[", "2", "]"}], "]"}], "//", "N"}]}], ",", 
+      RowBox[{"top", "=", 
+       RowBox[{
+        RowBox[{"range", "[", 
+         RowBox[{"[", "3", "]"}], "]"}], "//", "N"}]}], ",", "actualmesh"}], 
+     "}"}], ",", 
+    RowBox[{
+     RowBox[{"actualmesh", "=", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"top", "-", "bottom"}], ")"}], "/", "number"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"partitionstring", "=", 
+      RowBox[{"StringJoin", "[", 
+       RowBox[{"\"\<Uniform partition into \>\"", ",", 
+        RowBox[{"ToString", "[", "number", "]"}], ",", 
+        "\"\< subintervals\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Return", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"N", "[", 
+         RowBox[{"Range", "[", 
+          RowBox[{"bottom", ",", "top", ",", "actualmesh"}], "]"}], "]"}], 
+        ",", "actualmesh"}], "}"}], "]"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.482444309179576*^9, 3.4824443121965756`*^9}, {
+  3.482445727166*^9, 3.482445727509*^9}, {3.516711607703125*^9, 
+  3.516711615046875*^9}, {3.516747014101427*^9, 3.516747033304552*^9}, {
+  3.516747166913927*^9, 3.516747168398302*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Slices", "[", 
+   RowBox[{
+   "expression_", ",", "variable_", ",", "list_", ",", "options___Rule"}], 
+   "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"i", "=", "1"}], ",", 
+      RowBox[{"startlist", "=", "list"}], ",", "leftlist", ",", "rightlist", 
+      ",", "widthlist", ",", "selectlist", ",", "arealist", ",", "heightlist",
+       ",", "valuelist", ",", 
+      RowBox[{"opt", "=", 
+       RowBox[{
+        RowBox[{"Height", "/.", 
+         RowBox[{"{", "options", "}"}]}], "/.", 
+        RowBox[{"Options", "[", "RiemannData", "]"}]}]}], ",", 
+      RowBox[{"f", "=", 
+       RowBox[{"Function", "[", 
+        RowBox[{"variable", ",", "expression"}], "]"}]}]}], "}"}], ",", 
+    RowBox[{
+     RowBox[{"leftlist", "=", 
+      RowBox[{"Drop", "[", 
+       RowBox[{"list", ",", 
+        RowBox[{"-", "1"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"rightlist", "=", 
+      RowBox[{"Drop", "[", 
+       RowBox[{"list", ",", "1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"widthlist", "=", 
+      RowBox[{"rightlist", "-", "leftlist"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"selectlist", "=", 
+      RowBox[{"Switch", "[", 
+       RowBox[{"opt", ",", "LeftSide", ",", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+          "heightstring", "=", 
+           "\"\<Left edge of subinterval used for height\>\""}], ";", 
+          "leftlist"}], ")"}], ",", "RightSide", ",", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+          "heightstring", "=", 
+           "\"\<Right edge of subinterval used for height\>\""}], ";", 
+          "rightlist"}], ")"}], ",", "Midpoint", ",", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+          "heightstring", "=", 
+           "\"\<Midpoint of subinterval used for height\>\""}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"leftlist", "+", 
+           RowBox[{"0.5", "*", "widthlist"}]}]}], ")"}], ",", "Random", ",", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+          "heightstring", "=", 
+           "\"\<Random point in subinterval used for height\>\""}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"leftlist", "+", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Random", "[", 
+               RowBox[{"Real", ",", "#"}], "]"}], "&"}], "/@", "widthlist"}], 
+            ")"}]}]}], ")"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"heightlist", "=", 
+      RowBox[{"f", "/@", "selectlist"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"arealist", "=", 
+      RowBox[{"heightlist", "*", "widthlist"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"heightlist", ",", "arealist"}], "}"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.482444309179576*^9, 3.4824443121965756`*^9}, {
+   3.482445727166*^9, 3.482445727509*^9}, {3.516711607703125*^9, 
+   3.516711615046875*^9}, {3.516747014101427*^9, 3.516747033304552*^9}, {
+   3.516747166913927*^9, 3.516747168398302*^9}, 3.516747266617052*^9}],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{
+   RowBox[{"Boxx", "::", "usage"}], "=", 
+   "\"\<Boxx[bottom, top, left, right]\nproduces a series of Line statements \
+which in a\nGraphics object will draw a hollow rectangle with\nthe corners \
+given.  (Note that the built in\ncommand Rectangle draws a solid \
+rectangle.)\>\""}], "*)"}]], "Input",
+ CellChangeTimes->{{3.482444309179576*^9, 3.4824443121965756`*^9}, {
+  3.482445727166*^9, 3.482445727509*^9}, {3.516711607703125*^9, 
+  3.516711615046875*^9}, {3.516747014101427*^9, 3.516747041601427*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Boxx", "[", 
+   RowBox[{"bottom_", ",", "top_", ",", "left_", ",", "right_"}], "]"}], ":=", 
+  RowBox[{"Line", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"left", ",", "bottom"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"right", ",", "bottom"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"right", ",", "top"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"left", ",", "top"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"left", ",", "bottom"}], "}"}]}], "}"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.482444309179576*^9, 3.4824443121965756`*^9}, {
+  3.482445727166*^9, 3.482445727509*^9}, {3.516711607703125*^9, 
+  3.516711615046875*^9}, {3.516747014101427*^9, 3.516747047179552*^9}, {
+  3.516747175945177*^9, 3.516747177679552*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ShowSlices", "[", 
+   RowBox[{"partition_", ",", "heightlist_"}], "]"}], ":=", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"Boxx", "[", 
+     RowBox[{"0", ",", 
+      RowBox[{"heightlist", "[", 
+       RowBox[{"[", "i", "]"}], "]"}], ",", 
+      RowBox[{"partition", "[", 
+       RowBox[{"[", "i", "]"}], "]"}], ",", 
+      RowBox[{"partition", "[", 
+       RowBox[{"[", 
+        RowBox[{"i", "+", "1"}], "]"}], "]"}]}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "1", ",", 
+      RowBox[{
+       RowBox[{"Length", "[", "partition", "]"}], "-", "1"}]}], "}"}]}], 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.482444309179576*^9, 3.4824443121965756`*^9}, {
+   3.482445727166*^9, 3.482445727509*^9}, {3.516711607703125*^9, 
+   3.516711615046875*^9}, {3.516747014101427*^9, 3.516747060757677*^9}, 
+   3.516747179367052*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Options", "[", "RiemannData", "]"}], ":=", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"Subintervals", "\[Rule]", "12"}], ",", 
+    RowBox[{"Partition", "\[Rule]", "Uniform"}], ",", 
+    RowBox[{"Mesh", "\[Rule]", 
+     RowBox[{"intervallength", "/", "6.0"}]}], ",", 
+    RowBox[{"Height", "\[Rule]", "Midpoint"}]}], "}"}]}]], "Input",
+ CellChangeTimes->{{3.482444309179576*^9, 3.4824443121965756`*^9}, {
+  3.482445727166*^9, 3.482445727509*^9}, {3.516711607703125*^9, 
+  3.516711615046875*^9}, {3.516747014101427*^9, 3.516747079679552*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"RiemannData", "[", 
+   RowBox[{"expression_", ",", " ", "range_", ",", " ", "options___Rule"}], 
+   "]"}], " ", ":=", "\n", "\t", 
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"M", "=", 
+       RowBox[{
+        RowBox[{"Mesh", " ", "/.", " ", 
+         RowBox[{"{", "options", "}"}]}], " ", "\n", "\t\t\t", "/.", " ", 
+        RowBox[{"Options", "[", "RiemannData", "]"}]}]}], ",", "\n", "\t\t", 
+      RowBox[{"S", "=", 
+       RowBox[{
+        RowBox[{"Subintervals", " ", "/.", " ", 
+         RowBox[{"{", "options", "}"}]}], " ", "\n", "\t\t\t", "/.", " ", 
+        RowBox[{"Options", "[", "RiemannData", "]"}]}]}], ",", "\n", "\t\t", 
+      RowBox[{"P", "=", 
+       RowBox[{
+        RowBox[{"Partition", " ", "/.", " ", 
+         RowBox[{"{", "options", "}"}]}], " ", "\n", "\t\t\t", "/.", " ", 
+        RowBox[{"Options", "[", "RiemannData", "]"}]}]}], ",", "\n", "\t\t", 
+      RowBox[{"variable", "=", 
+       RowBox[{"range", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}], ",", "\n", "\t\t", 
+      RowBox[{"intervallength", "=", 
+       RowBox[{
+        RowBox[{"range", "[", 
+         RowBox[{"[", "3", "]"}], "]"}], "-", 
+        RowBox[{"range", "[", 
+         RowBox[{"[", "2", "]"}], "]"}]}]}]}], "}"}], ",", "\n", "\t\t", 
+    RowBox[{
+     RowBox[{"list", "=", 
+      RowBox[{"Switch", "[", 
+       RowBox[{"P", ",", " ", "Uniform", ",", " ", "\n", "\t\t\t", 
+        RowBox[{"UniformPartition", "[", 
+         RowBox[{"range", ",", " ", "S"}], "]"}], ",", "\n", "\t\t\t", 
+        "Random", ",", "\n", "\t\t\t", 
+        RowBox[{"RandomPartition", "[", 
+         RowBox[{"range", ",", " ", "M"}], "]"}]}], "\n", "           ", 
+       "]"}]}], ";", " ", "\n", "\t", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"list", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], "}"}], " ", "~", "Join", "~", " ", 
+      "\n", "\t\t", 
+      RowBox[{"Slices", "[", 
+       RowBox[{"expression", ",", " ", "variable", ",", " ", 
+        RowBox[{"list", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], ",", " ", "options"}], "]"}], "\n", 
+      "\t\t", "~", "Join", "~", " ", 
+      RowBox[{"{", 
+       RowBox[{"list", "[", 
+        RowBox[{"[", "2", "]"}], "]"}], "}"}]}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.482444309179576*^9, 3.4824443121965756`*^9}, {
+  3.482445727166*^9, 3.482445727509*^9}, {3.516711607703125*^9, 
+  3.516711615046875*^9}, {3.516747014101427*^9, 3.516747101945177*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"RiemannSum", "[", 
+   RowBox[{"expression_", ",", "range_", ",", "options___Rule"}], "]"}], ":=", 
+  RowBox[{"Apply", "[", 
+   RowBox[{"Plus", ",", 
+    RowBox[{
+     RowBox[{"RiemannData", "[", 
+      RowBox[{"expression", ",", "range", ",", "options"}], "]"}], "[", 
+     RowBox[{"[", "3", "]"}], "]"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.482444309179576*^9, 3.4824443121965756`*^9}, {
+   3.482445727166*^9, 3.482445727509*^9}, {3.516711607703125*^9, 
+   3.516711615046875*^9}, {3.516747014101427*^9, 3.516747103038927*^9}, 
+   3.516747188226427*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"PlotRiemann", "[", 
+   RowBox[{"expression_", ",", "range_", ",", 
+    RowBox[{"{", "plotoptions___", "}"}], ",", 
+    RowBox[{"{", "riemannoptions___", "}"}]}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Block", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "g", ",", "u", ",", "partition", ",", "heightlist", ",", "sum", ",", 
+      "mesh", ",", "integralvalue", ",", "outstring"}], "}"}], ",", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"u", "=", 
+       RowBox[{"RiemannData", "[", 
+        RowBox[{"expression", ",", "range", ",", "riemannoptions"}], 
+        "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"partition", "=", 
+       RowBox[{"u", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"heightlist", "=", 
+       RowBox[{"u", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"sum", "=", 
+       RowBox[{"Apply", "[", 
+        RowBox[{"Plus", ",", 
+         RowBox[{"u", "[", 
+          RowBox[{"[", "3", "]"}], "]"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"mesh", "=", 
+       RowBox[{"u", "[", 
+        RowBox[{"[", "4", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"integralvalue", "=", 
+       RowBox[{"NIntegrate", "[", 
+        RowBox[{"expression", ",", "range"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"outstring", "=", 
+       RowBox[{"StringJoin", "[", "\[IndentingNewLine]", 
+        RowBox[{
+        "\"\<\\n\>\"", ",", "\[IndentingNewLine]", "partitionstring", ",", 
+         "\"\<\\n\>\"", ",", "\[IndentingNewLine]", "heightstring", ",", 
+         "\"\<\\n\>\"", ",", "\[IndentingNewLine]", "\"\<Riemann Sum = \>\"", 
+         ",", 
+         RowBox[{"ToString", "[", 
+          RowBox[{"Chop", "[", "sum", "]"}], "]"}], ",", "\"\<    \>\"", ",", 
+         "\[IndentingNewLine]", "\"\<Definite Integral = \>\"", ",", 
+         RowBox[{"ToString", "[", "integralvalue", "]"}], ",", "\"\<\\n\>\"", 
+         ",", "\[IndentingNewLine]", "\"\<Norm = \>\"", ",", 
+         RowBox[{"ToString", "[", "mesh", "]"}], ",", "\"\<    \>\"", ",", 
+         "\"\<Percent error =\>\"", ",", 
+         RowBox[{"ToString", "[", "\[IndentingNewLine]", 
+          RowBox[{"NumberForm", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Chop", "[", 
+             RowBox[{"Abs", "[", 
+              RowBox[{"100", "*", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"integralvalue", "-", "sum"}], ")"}], "/", 
+                "integralvalue"}]}], "]"}], "]"}], ",", "\[IndentingNewLine]",
+             "3"}], "]"}], "\[IndentingNewLine]", "]"}]}], 
+        "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"g", ":=", 
+       RowBox[{"Plot", "[", 
+        RowBox[{"expression", ",", "range", ",", 
+         RowBox[{"DisplayFunction", "\[Rule]", "Identity"}], ",", 
+         RowBox[{"PlotLabel", "\[Rule]", "outstring"}], ",", 
+         RowBox[{"PlotStyle", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{"{", 
+            RowBox[{"RGBColor", "[", 
+             RowBox[{"0", ",", "0", ",", "1"}], "]"}], "}"}], "}"}]}], ",", 
+         "plotoptions"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"h", ":=", 
+       RowBox[{"Graphics", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"RGBColor", "[", 
+           RowBox[{".8", ",", ".3", ",", "0"}], "]"}], ",", 
+          RowBox[{"ShowSlices", "[", 
+           RowBox[{"partition", ",", "heightlist"}], "]"}]}], "}"}], "]"}]}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{"Show", "[", 
+       RowBox[{"g", ",", "h", ",", 
+        RowBox[{"DisplayFunction", "\[Rule]", "$DisplayFunction"}]}], "]"}]}],
+      ")"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.482444309179576*^9, 3.4824443121965756`*^9}, {
+   3.482445727166*^9, 3.482445727509*^9}, {3.516711607703125*^9, 
+   3.516711615046875*^9}, {3.516747014101427*^9, 3.516747103992052*^9}, {
+   3.516747189335802*^9, 3.516747254882677*^9}, {3.5449921434526157`*^9, 
+   3.54499227117004*^9}, {3.544992317236921*^9, 3.5449924070618787`*^9}, {
+   3.544992475561599*^9, 3.544992520146477*^9}, {3.5449925515493326`*^9, 
+   3.5449925582573442`*^9}, {3.5449926069606295`*^9, 3.54499260716343*^9}, {
+   3.5449927688809147`*^9, 3.5449927807525353`*^9}, {3.5449931081347103`*^9, 
+   3.5449931584447985`*^9}, {3.5449935106934175`*^9, 3.544993514063023*^9}, 
+   3.544993616726804*^9, {3.5449938017587285`*^9, 3.544993803739932*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"PlotRiemann", "[", 
+    RowBox[{"expression_", ",", "range_"}], "]"}], ":=", 
+   RowBox[{"PlotRiemann", "[", 
+    RowBox[{"expression", ",", "range", ",", 
+     RowBox[{"{", "}"}], ",", 
+     RowBox[{"{", "}"}]}], "]"}]}], ";"}]], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["The Display", "Section",
+ CellChangeTimes->{{3.544824526184574*^9, 3.544824531925374*^9}, {
+  3.5448251598877735`*^9, 3.5448251607769737`*^9}, {3.545341950246303*^9, 
+  3.5453419560183134`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"SetOptions", "[", 
+    RowBox[{"Plot", ",", 
+     RowBox[{"AspectRatio", "\[Rule]", "1"}]}], "]"}], ";"}], " "}]], "Input",
+ CellChangeTimes->{3.5452617180060043`*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"PlotRiemann", "[", "\[IndentingNewLine]", 
+    RowBox[{"fn", ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"ImageSize", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"350", ",", "350"}], "}"}]}], "}"}], ",", "\n", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Partition", " ", "->", " ", "pt"}], ",", 
+       RowBox[{"Height", " ", "->", " ", "ht"}], ",", 
+       RowBox[{"Mesh", "\[Rule]", 
+        RowBox[{"N", "[", 
+         RowBox[{"1", "/", "n"}], "]"}]}], ",", 
+       RowBox[{"Subintervals", " ", "\[Rule]", "n"}]}], "}"}]}], 
+    "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"n", ",", "10"}], "}"}], ",", "1", ",", "100", ",", "1", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"pt", ",", "Uniform", ",", " ", "\"\<Partition Type\>\""}], 
+      "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"Uniform", ",", " ", "Random"}], "}"}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ht", ",", "Midpoint", ",", " ", "\"\<Height\>\""}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "Midpoint", ",", "Random", ",", " ", "LeftSide", ",", " ", 
+       "RightSide"}], "}"}]}], "}"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"fn", ",", 
+       RowBox[{"Sqrt", "[", 
+        RowBox[{"1", "-", 
+         RowBox[{"x", "^", "2"}]}], "]"}], ",", "\"\<Function\>\""}], "}"}], 
+     ",", 
+     RowBox[{"{", " ", 
+      RowBox[{"x", ",", " ", 
+       RowBox[{"x", "^", "2"}], ",", " ", 
+       RowBox[{"x", "^", "5"}], ",", 
+       RowBox[{"Sqrt", "[", 
+        RowBox[{"1", "-", 
+         RowBox[{"x", "^", "2"}]}], "]"}], ",", 
+       RowBox[{"Sin", "[", 
+        RowBox[{"Pi", " ", "x"}], "]"}]}], "}"}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"SaveDefinitions", "\[Rule]", "True"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.5450485814586716`*^9, 3.545048751795371*^9}, {
+  3.5450490031118126`*^9, 3.545049053671501*^9}, {3.54504908688396*^9, 
+  3.545049097835179*^9}, {3.545049147162465*^9, 3.5450491477396665`*^9}, {
+  3.545049181201725*^9, 3.5450492308878126`*^9}, {3.545049309995551*^9, 
+  3.5450493926912966`*^9}, {3.5450859027605324`*^9, 3.5450859030725327`*^9}, {
+  3.545261428110989*^9, 3.545261439001556*^9}, {3.656178508599167*^9, 
+  3.6561785092191677`*^9}, {3.656271673375821*^9, 3.656271673935853*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`fn$$ = (1 - $CellContext`x^2)^
+    Rational[1, 
+      2], $CellContext`ht$$ = $CellContext`Midpoint, $CellContext`n$$ = 
+    19, $CellContext`pt$$ = Random, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`n$$], 10}, 1, 100, 1}, {{
+       Hold[$CellContext`pt$$], $CellContext`Uniform, 
+       "Partition Type"}, {$CellContext`Uniform, Random}}, {{
+       Hold[$CellContext`ht$$], $CellContext`Midpoint, 
+       "Height"}, {$CellContext`Midpoint, 
+       Random, $CellContext`LeftSide, $CellContext`RightSide}}, {{
+       Hold[$CellContext`fn$$], (1 - $CellContext`x^2)^Rational[1, 2], 
+       "Function"}, {$CellContext`x, $CellContext`x^2, $CellContext`x^5, (
+        1 - $CellContext`x^2)^Rational[1, 2], 
+       Sin[Pi $CellContext`x]}}}, Typeset`size$$ = {438., {215., 223.}}, 
+    Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    False, $CellContext`n$1024$$ = 0, $CellContext`pt$1025$$ = 
+    False, $CellContext`ht$1026$$ = 0, $CellContext`fn$1027$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`fn$$ = (1 - $CellContext`x^2)^
+         Rational[
+          1, 2], $CellContext`ht$$ = $CellContext`Midpoint, $CellContext`n$$ = 
+        10, $CellContext`pt$$ = $CellContext`Uniform}, "ControllerVariables" :> {
+        Hold[$CellContext`n$$, $CellContext`n$1024$$, 0], 
+        Hold[$CellContext`pt$$, $CellContext`pt$1025$$, False], 
+        Hold[$CellContext`ht$$, $CellContext`ht$1026$$, 0], 
+        Hold[$CellContext`fn$$, $CellContext`fn$1027$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, 
+      "Body" :> $CellContext`PlotRiemann[$CellContext`fn$$, {$CellContext`x, 
+         0, 1}, {ImageSize -> {350, 350}}, {
+        Partition -> $CellContext`pt$$, $CellContext`Height -> \
+$CellContext`ht$$, Mesh -> 
+         N[1/$CellContext`n$$], $CellContext`Subintervals -> \
+$CellContext`n$$}], 
+      "Specifications" :> {{{$CellContext`n$$, 10}, 1, 100, 1, Appearance -> 
+         "Open"}, {{$CellContext`pt$$, $CellContext`Uniform, 
+          "Partition Type"}, {$CellContext`Uniform, 
+          Random}}, {{$CellContext`ht$$, $CellContext`Midpoint, 
+          "Height"}, {$CellContext`Midpoint, 
+          Random, $CellContext`LeftSide, $CellContext`RightSide}}, \
+{{$CellContext`fn$$, (1 - $CellContext`x^2)^Rational[1, 2], 
+          "Function"}, {$CellContext`x, $CellContext`x^2, $CellContext`x^5, (
+           1 - $CellContext`x^2)^Rational[1, 2], 
+          Sin[Pi $CellContext`x]}}}, "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{499., {339., 346.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>({$CellContext`PlotRiemann[
+         Pattern[$CellContext`expression, 
+          Blank[]], 
+         Pattern[$CellContext`range, 
+          Blank[]], {
+          Pattern[$CellContext`plotoptions, 
+           BlankNullSequence[]]}, {
+          Pattern[$CellContext`riemannoptions, 
+           BlankNullSequence[]]}] := 
+       Block[{$CellContext`g, $CellContext`u, $CellContext`partition, \
+$CellContext`heightlist, $CellContext`sum, $CellContext`mesh, \
+$CellContext`integralvalue, $CellContext`outstring}, $CellContext`u = \
+$CellContext`RiemannData[$CellContext`expression, $CellContext`range, \
+$CellContext`riemannoptions]; $CellContext`partition = 
+          Part[$CellContext`u, 1]; $CellContext`heightlist = 
+          Part[$CellContext`u, 2]; $CellContext`sum = Apply[Plus, 
+            Part[$CellContext`u, 3]]; $CellContext`mesh = 
+          Part[$CellContext`u, 4]; $CellContext`integralvalue = 
+          
+          NIntegrate[$CellContext`expression, $CellContext`range]; \
+$CellContext`outstring = 
+          StringJoin[
+           "\n", $CellContext`partitionstring, 
+            "\n", $CellContext`heightstring, "\n", "Riemann Sum = ", 
+            ToString[
+             Chop[$CellContext`sum]], "    ", "Definite Integral = ", 
+            ToString[$CellContext`integralvalue], "\n", "Norm = ", 
+            ToString[$CellContext`mesh], "    ", "Percent error =", 
+            ToString[
+             NumberForm[
+              Chop[
+               Abs[
+               100 (($CellContext`integralvalue - \
+$CellContext`sum)/$CellContext`integralvalue)]], 3]]]; $CellContext`g := 
+          Plot[$CellContext`expression, $CellContext`range, DisplayFunction -> 
+            Identity, PlotLabel -> $CellContext`outstring, PlotStyle -> {{
+               RGBColor[0, 0, 1]}}, $CellContext`plotoptions]; $CellContext`h := 
+          Graphics[{
+             RGBColor[0.8, 0.3, 0], 
+             $CellContext`ShowSlices[$CellContext`partition, \
+$CellContext`heightlist]}]; 
+         Show[$CellContext`g, $CellContext`h, 
+           DisplayFunction -> $DisplayFunction]], $CellContext`PlotRiemann[
+         Pattern[$CellContext`expression, 
+          Blank[]], 
+         Pattern[$CellContext`range, 
+          
+          Blank[]]] := $CellContext`PlotRiemann[$CellContext`expression, \
+$CellContext`range, {}, {}], $CellContext`RiemannData[
+         Pattern[$CellContext`expression, 
+          Blank[]], 
+         Pattern[$CellContext`range, 
+          Blank[]], 
+         Pattern[$CellContext`options, 
+          BlankNullSequence[Rule]]] := Block[{$CellContext`M = ReplaceAll[
+            ReplaceAll[Mesh, {$CellContext`options}], 
+            Options[$CellContext`RiemannData]], $CellContext`S = ReplaceAll[
+            ReplaceAll[$CellContext`Subintervals, {$CellContext`options}], 
+            Options[$CellContext`RiemannData]], $CellContext`P = ReplaceAll[
+            ReplaceAll[Partition, {$CellContext`options}], 
+            Options[$CellContext`RiemannData]], $CellContext`variable = 
+          Part[$CellContext`range, 1], $CellContext`intervallength = 
+          Part[$CellContext`range, 3] - 
+           Part[$CellContext`range, 2]}, $CellContext`list = 
+          Switch[$CellContext`P, $CellContext`Uniform, 
+            $CellContext`UniformPartition[$CellContext`range, $CellContext`S],
+             Random, 
+            $CellContext`RandomPartition[$CellContext`range, $CellContext`M]]; 
+         Join[
+           Join[{
+             Part[$CellContext`list, 1]}, 
+            $CellContext`Slices[$CellContext`expression, \
+$CellContext`variable, 
+             Part[$CellContext`list, 1], $CellContext`options]], {
+            Part[$CellContext`list, 2]}]], 
+       Options[$CellContext`RiemannData] := {$CellContext`Subintervals -> 12, 
+         Partition -> $CellContext`Uniform, 
+         Mesh -> $CellContext`intervallength/
+          6., $CellContext`Height -> $CellContext`Midpoint}, \
+$CellContext`UniformPartition[
+         Pattern[$CellContext`range, 
+          Blank[]], 
+         Pattern[$CellContext`number, 
+          Blank[]]] := Module[{$CellContext`bottom = N[
+            Part[$CellContext`range, 2]], $CellContext`top = N[
+            
+            Part[$CellContext`range, 
+             3]], $CellContext`actualmesh}, $CellContext`actualmesh = \
+($CellContext`top - $CellContext`bottom)/$CellContext`number; \
+$CellContext`partitionstring = StringJoin["Uniform partition into ", 
+            ToString[$CellContext`number], " subintervals"]; Return[{
+            N[
+             
+             Range[$CellContext`bottom, $CellContext`top, \
+$CellContext`actualmesh]], $CellContext`actualmesh}]], \
+$CellContext`RandomPartition[
+         Pattern[$CellContext`range, 
+          Blank[]], 
+         Pattern[$CellContext`mesh, 
+          Blank[]]] := 
+       Module[{$CellContext`u = Part[$CellContext`range, 2], $CellContext`top = 
+          Part[$CellContext`range, 3], $CellContext`list = {
+            Part[$CellContext`range, 
+             2]}, $CellContext`v, $CellContext`newlist, \
+$CellContext`actualmesh = 0}, 
+         While[$CellContext`u + $CellContext`mesh < $CellContext`top, \
+$CellContext`v = $CellContext`u + 
+             Random[Real, $CellContext`mesh]; $CellContext`actualmesh = 
+            Max[$CellContext`actualmesh, $CellContext`v - $CellContext`u]; \
+$CellContext`newlist := 
+            Append[$CellContext`list, $CellContext`v]; $CellContext`u = \
+$CellContext`v; $CellContext`list = $CellContext`newlist]; \
+$CellContext`partitionstring = 
+          StringJoin["Random partition with maximum norm ", 
+            ToString[$CellContext`mesh]]; $CellContext`actualmesh = 
+          Max[$CellContext`actualmesh, $CellContext`top - 
+            Last[$CellContext`list]]; Return[{
+            
+            Append[$CellContext`list, $CellContext`top], \
+$CellContext`actualmesh}]], $CellContext`Slices[
+         Pattern[$CellContext`expression, 
+          Blank[]], 
+         Pattern[$CellContext`variable, 
+          Blank[]], 
+         Pattern[$CellContext`list, 
+          Blank[]], 
+         Pattern[$CellContext`options, 
+          BlankNullSequence[Rule]]] := 
+       Module[{$CellContext`i = 
+          1, $CellContext`startlist = $CellContext`list, \
+$CellContext`leftlist, $CellContext`rightlist, $CellContext`widthlist, \
+$CellContext`selectlist, $CellContext`arealist, $CellContext`heightlist, \
+$CellContext`valuelist, $CellContext`opt = ReplaceAll[
+            ReplaceAll[$CellContext`Height, {$CellContext`options}], 
+            Options[$CellContext`RiemannData]], $CellContext`f = 
+          Function[$CellContext`variable, $CellContext`expression]}, \
+$CellContext`leftlist = Drop[$CellContext`list, -1]; $CellContext`rightlist = 
+          Drop[$CellContext`list, 
+            1]; $CellContext`widthlist = $CellContext`rightlist - \
+$CellContext`leftlist; $CellContext`selectlist = 
+          Switch[$CellContext`opt, $CellContext`LeftSide, \
+$CellContext`heightstring = 
+             "Left edge of subinterval used for height"; \
+$CellContext`leftlist, $CellContext`RightSide, $CellContext`heightstring = 
+             "Right edge of subinterval used for height"; \
+$CellContext`rightlist, $CellContext`Midpoint, $CellContext`heightstring = 
+             "Midpoint of subinterval used for height"; $CellContext`leftlist + 
+             0.5 $CellContext`widthlist, 
+            Random, $CellContext`heightstring = 
+             "Random point in subinterval used for height"; \
+$CellContext`leftlist + 
+             Map[Random[
+               Real, #]& , $CellContext`widthlist]]; $CellContext`heightlist = 
+          Map[$CellContext`f, $CellContext`selectlist]; $CellContext`arealist = \
+$CellContext`heightlist $CellContext`widthlist; {$CellContext`heightlist, \
+$CellContext`arealist}], $CellContext`ShowSlices[
+         Pattern[$CellContext`partition, 
+          Blank[]], 
+         Pattern[$CellContext`heightlist, 
+          Blank[]]] := Table[
+         $CellContext`Boxx[0, 
+          Part[$CellContext`heightlist, $CellContext`i], 
+          Part[$CellContext`partition, $CellContext`i], 
+          Part[$CellContext`partition, $CellContext`i + 1]], {$CellContext`i, 
+          1, Length[$CellContext`partition] - 1}], $CellContext`Boxx[
+         Pattern[$CellContext`bottom, 
+          Blank[]], 
+         Pattern[$CellContext`top, 
+          Blank[]], 
+         Pattern[$CellContext`left, 
+          Blank[]], 
+         Pattern[$CellContext`right, 
+          Blank[]]] := 
+       Line[{{$CellContext`left, $CellContext`bottom}, {$CellContext`right, \
+$CellContext`bottom}, {$CellContext`right, $CellContext`top}, \
+{$CellContext`left, $CellContext`top}, {$CellContext`left, \
+$CellContext`bottom}}], $DisplayFunction = Identity}; 
+     Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{{3.5450487335277386`*^9, 3.545048757270981*^9}, {
+   3.545049035232269*^9, 3.545049101875586*^9}, 3.54504914979887*^9, {
+   3.5450491893605394`*^9, 3.5450492319642143`*^9}, {3.5450493138955584`*^9, 
+   3.5450493947505007`*^9}, 3.545085860047657*^9, 3.5450859065045385`*^9, 
+   3.545234664125798*^9, 3.545234975427219*^9, 3.5452356457162886`*^9, 
+   3.545260723912286*^9, {3.5452614103904543`*^9, 3.545261446980788*^9}, 
+   3.5453416369073524`*^9, 3.5453424854964457`*^9, 3.545342540517742*^9, 
+   3.5939527416845827`*^9, 3.656178519639183*^9, 3.6562710372374363`*^9, 
+   3.656271680263215*^9, 3.6564424970968246`*^9, 3.6564428496509895`*^9, 
+   3.6564577060224752`*^9, 3.6565268080392385`*^9, 3.656526929455183*^9, 
+   3.6566931900507317`*^9, {3.656693233834236*^9, 3.656693262964902*^9}, 
+   3.657039802950904*^9, 3.6570404377552195`*^9, 3.6570411771319184`*^9, 
+   3.657042045729244*^9, {3.657042170108263*^9, 3.6570421854274893`*^9}, 
+   3.657042250120803*^9, 3.657062472061304*^9, 3.6570628124851027`*^9, 
+   3.657063504858679*^9, 3.6571077732362566`*^9, 3.6571361296828737`*^9, 
+   3.6571362771263065`*^9, 3.6572149785414495`*^9, {3.657215031613743*^9, 
+   3.6572150537813816`*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["New Display with tiny sine", "Section",
+ CellChangeTimes->{{3.657039895568267*^9, 3.657039913071498*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Show", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"PlotRiemann", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{".1", "+", 
+        RowBox[{".05", " ", 
+         RowBox[{"Sin", "[", 
+          RowBox[{
+           RowBox[{"Sqrt", "[", "1999", "]"}], "Pi", " ", "x"}], "]"}]}]}], 
+       ",", "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"ImageSize", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{"350", ",", "175"}], "}"}]}], ",", 
+         RowBox[{"AxesOrigin", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0"}], "}"}]}]}], "}"}], ",", "\n", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Partition", " ", "->", " ", "Uniform"}], ",", 
+         RowBox[{"Mesh", "\[Rule]", 
+          RowBox[{"N", "[", 
+           RowBox[{"1", "/", "n"}], "]"}]}], ",", 
+         RowBox[{"Subintervals", " ", "\[Rule]", "n"}]}], "}"}]}], 
+      "\[IndentingNewLine]", "]"}], ",", 
+     RowBox[{"AspectRatio", "\[Rule]", ".2"}], ",", 
+     RowBox[{"PlotRange", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"0", ",", "1"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", ".2"}], "}"}]}], "}"}]}]}], "\[IndentingNewLine]", 
+    "]"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"n", ",", "20"}], "}"}], ",", "1", ",", "100", ",", "1", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Open\>\""}]}], "}"}], ",", 
+   RowBox[{"SaveDefinitions", "\[Rule]", "True"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.6564431877433276`*^9, 3.656443250644925*^9}, {
+   3.6564432916932735`*^9, 3.6564432980976396`*^9}, {3.656443362233308*^9, 
+   3.6564433667235646`*^9}, {3.6564434230427856`*^9, 3.656443424073845*^9}, {
+   3.6564434953459215`*^9, 3.656443502194313*^9}, {3.6564435528302093`*^9, 
+   3.6564435815828543`*^9}, 3.6564436281185155`*^9, {3.656443663315529*^9, 
+   3.6564436652166376`*^9}, {3.656457820214636*^9, 3.6564578453566713`*^9}, {
+   3.65652687502307*^9, 3.6565268783072577`*^9}, {3.656527242970115*^9, 
+   3.6565273715034666`*^9}, {3.6565275558650117`*^9, 
+   3.6565276366036296`*^9}, {3.6566931691785383`*^9, 
+   3.6566931756889105`*^9}, {3.6566932290279613`*^9, 3.656693270842353*^9}, {
+   3.656693342211435*^9, 3.6566933538170986`*^9}, {3.6566934947741613`*^9, 
+   3.656693495353194*^9}, {3.6570401256726713`*^9, 3.657040126015872*^9}, 
+   3.6570402726747293`*^9, {3.65704039795955*^9, 3.65704039806875*^9}, {
+   3.657040456740453*^9, 3.6570404764276876`*^9}, {3.657040643379181*^9, 
+   3.657040657809206*^9}, {3.6570409859245825`*^9, 3.657041041179879*^9}, {
+   3.6570410715697327`*^9, 3.6570410986825805`*^9}, {3.6570419498168755`*^9, 
+   3.657041994714754*^9}, 3.6570421653814545`*^9, {3.6570423357337537`*^9, 
+   3.657042336950556*^9}, {3.657042403502673*^9, 3.6570424046414747`*^9}, {
+   3.6570627979926767`*^9, 3.657062802984686*^9}, {3.6570634151575212`*^9, 
+   3.657063446919177*^9}, {3.6570636076170597`*^9, 3.6570636214542837`*^9}, {
+   3.6570639798215046`*^9, 3.657063986685517*^9}, {3.657064017417571*^9, 
+   3.6570640313483953`*^9}, {3.657064078538478*^9, 3.6570641244035587`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`n$$ = 11, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`n$$], 20}, 1, 100, 1}}, Typeset`size$$ = {
+    438., {106., 113.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = False, $CellContext`n$1051$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`n$$ = 20}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`n$$, $CellContext`n$1051$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Show[
+        $CellContext`PlotRiemann[
+        0.1 + 0.05 Sin[(Sqrt[1999] Pi) $CellContext`x], {$CellContext`x, 0, 
+          1}, {ImageSize -> {350, 175}, AxesOrigin -> {0, 0}}, {
+         Partition -> $CellContext`Uniform, Mesh -> 
+          N[1/$CellContext`n$$], $CellContext`Subintervals -> \
+$CellContext`n$$}], AspectRatio -> 0.2, PlotRange -> {{0, 1}, {0, 0.2}}], 
+      "Specifications" :> {{{$CellContext`n$$, 20}, 1, 100, 1, Appearance -> 
+         "Open"}}, "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{499., {176., 183.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>({$CellContext`PlotRiemann[
+         Pattern[$CellContext`expression, 
+          Blank[]], 
+         Pattern[$CellContext`range, 
+          Blank[]], {
+          Pattern[$CellContext`plotoptions, 
+           BlankNullSequence[]]}, {
+          Pattern[$CellContext`riemannoptions, 
+           BlankNullSequence[]]}] := 
+       Block[{$CellContext`g, $CellContext`u, $CellContext`partition, \
+$CellContext`heightlist, $CellContext`sum, $CellContext`mesh, \
+$CellContext`integralvalue, $CellContext`outstring}, $CellContext`u = \
+$CellContext`RiemannData[$CellContext`expression, $CellContext`range, \
+$CellContext`riemannoptions]; $CellContext`partition = 
+          Part[$CellContext`u, 1]; $CellContext`heightlist = 
+          Part[$CellContext`u, 2]; $CellContext`sum = Apply[Plus, 
+            Part[$CellContext`u, 3]]; $CellContext`mesh = 
+          Part[$CellContext`u, 4]; $CellContext`integralvalue = 
+          NIntegrate[$CellContext`expression, $CellContext`range]; \
+$CellContext`outstring = 
+          StringJoin[
+           "\n", $CellContext`partitionstring, 
+            "\n", $CellContext`heightstring, "\n", "Riemann Sum = ", 
+            ToString[
+             Chop[$CellContext`sum]], "    ", "Definite Integral = ", 
+            ToString[$CellContext`integralvalue], "\n", "Norm = ", 
+            ToString[$CellContext`mesh], "    ", "Percent error =", 
+            ToString[
+             NumberForm[
+              Chop[
+               Abs[
+               100 (($CellContext`integralvalue - \
+$CellContext`sum)/$CellContext`integralvalue)]], 3]]]; $CellContext`g := 
+          Plot[$CellContext`expression, $CellContext`range, DisplayFunction -> 
+            Identity, PlotLabel -> $CellContext`outstring, PlotStyle -> {{
+               RGBColor[0, 0, 1]}}, $CellContext`plotoptions]; $CellContext`h := 
+          Graphics[{
+             RGBColor[0.8, 0.3, 0], 
+             $CellContext`ShowSlices[$CellContext`partition, \
+$CellContext`heightlist]}]; 
+         Show[$CellContext`g, $CellContext`h, 
+           DisplayFunction -> $DisplayFunction]], $CellContext`PlotRiemann[
+         Pattern[$CellContext`expression, 
+          Blank[]], 
+         Pattern[$CellContext`range, 
+          
+          Blank[]]] := $CellContext`PlotRiemann[$CellContext`expression, \
+$CellContext`range, {}, {}], $CellContext`RiemannData[
+         Pattern[$CellContext`expression, 
+          Blank[]], 
+         Pattern[$CellContext`range, 
+          Blank[]], 
+         Pattern[$CellContext`options, 
+          BlankNullSequence[Rule]]] := Block[{$CellContext`M = ReplaceAll[
+            ReplaceAll[Mesh, {$CellContext`options}], 
+            Options[$CellContext`RiemannData]], $CellContext`S = ReplaceAll[
+            ReplaceAll[$CellContext`Subintervals, {$CellContext`options}], 
+            Options[$CellContext`RiemannData]], $CellContext`P = ReplaceAll[
+            ReplaceAll[Partition, {$CellContext`options}], 
+            Options[$CellContext`RiemannData]], $CellContext`variable = 
+          Part[$CellContext`range, 1], $CellContext`intervallength = 
+          Part[$CellContext`range, 3] - 
+           Part[$CellContext`range, 2]}, $CellContext`list = 
+          Switch[$CellContext`P, $CellContext`Uniform, 
+            $CellContext`UniformPartition[$CellContext`range, $CellContext`S],
+             Random, 
+            $CellContext`RandomPartition[$CellContext`range, $CellContext`M]]; 
+         Join[
+           Join[{
+             Part[$CellContext`list, 1]}, 
+            $CellContext`Slices[$CellContext`expression, \
+$CellContext`variable, 
+             Part[$CellContext`list, 1], $CellContext`options]], {
+            Part[$CellContext`list, 2]}]], 
+       Options[$CellContext`RiemannData] := {$CellContext`Subintervals -> 12, 
+         Partition -> $CellContext`Uniform, 
+         Mesh -> $CellContext`intervallength/
+          6., $CellContext`Height -> $CellContext`Midpoint}, \
+$CellContext`UniformPartition[
+         Pattern[$CellContext`range, 
+          Blank[]], 
+         Pattern[$CellContext`number, 
+          Blank[]]] := Module[{$CellContext`bottom = N[
+            Part[$CellContext`range, 2]], $CellContext`top = N[
+            
+            Part[$CellContext`range, 
+             3]], $CellContext`actualmesh}, $CellContext`actualmesh = \
+($CellContext`top - $CellContext`bottom)/$CellContext`number; \
+$CellContext`partitionstring = StringJoin["Uniform partition into ", 
+            ToString[$CellContext`number], " subintervals"]; Return[{
+            N[
+             
+             Range[$CellContext`bottom, $CellContext`top, \
+$CellContext`actualmesh]], $CellContext`actualmesh}]], \
+$CellContext`RandomPartition[
+         Pattern[$CellContext`range, 
+          Blank[]], 
+         Pattern[$CellContext`mesh, 
+          Blank[]]] := 
+       Module[{$CellContext`u = Part[$CellContext`range, 2], $CellContext`top = 
+          Part[$CellContext`range, 3], $CellContext`list = {
+            
+            Part[$CellContext`range, 
+             2]}, $CellContext`v, $CellContext`newlist, \
+$CellContext`actualmesh = 0}, 
+         While[$CellContext`u + $CellContext`mesh < $CellContext`top, \
+$CellContext`v = $CellContext`u + 
+             Random[Real, $CellContext`mesh]; $CellContext`actualmesh = 
+            Max[$CellContext`actualmesh, $CellContext`v - $CellContext`u]; \
+$CellContext`newlist := 
+            Append[$CellContext`list, $CellContext`v]; $CellContext`u = \
+$CellContext`v; $CellContext`list = $CellContext`newlist]; \
+$CellContext`partitionstring = 
+          StringJoin["Random partition with maximum norm ", 
+            ToString[$CellContext`mesh]]; $CellContext`actualmesh = 
+          Max[$CellContext`actualmesh, $CellContext`top - 
+            Last[$CellContext`list]]; Return[{
+            
+            Append[$CellContext`list, $CellContext`top], \
+$CellContext`actualmesh}]], $CellContext`Slices[
+         Pattern[$CellContext`expression, 
+          Blank[]], 
+         Pattern[$CellContext`variable, 
+          Blank[]], 
+         Pattern[$CellContext`list, 
+          Blank[]], 
+         Pattern[$CellContext`options, 
+          BlankNullSequence[Rule]]] := 
+       Module[{$CellContext`i = 
+          1, $CellContext`startlist = $CellContext`list, \
+$CellContext`leftlist, $CellContext`rightlist, $CellContext`widthlist, \
+$CellContext`selectlist, $CellContext`arealist, $CellContext`heightlist, \
+$CellContext`valuelist, $CellContext`opt = ReplaceAll[
+            ReplaceAll[$CellContext`Height, {$CellContext`options}], 
+            Options[$CellContext`RiemannData]], $CellContext`f = 
+          Function[$CellContext`variable, $CellContext`expression]}, \
+$CellContext`leftlist = Drop[$CellContext`list, -1]; $CellContext`rightlist = 
+          Drop[$CellContext`list, 
+            1]; $CellContext`widthlist = $CellContext`rightlist - \
+$CellContext`leftlist; $CellContext`selectlist = 
+          Switch[$CellContext`opt, $CellContext`LeftSide, \
+$CellContext`heightstring = 
+             "Left edge of subinterval used for height"; \
+$CellContext`leftlist, $CellContext`RightSide, $CellContext`heightstring = 
+             "Right edge of subinterval used for height"; \
+$CellContext`rightlist, $CellContext`Midpoint, $CellContext`heightstring = 
+             "Midpoint of subinterval used for height"; $CellContext`leftlist + 
+             0.5 $CellContext`widthlist, 
+            Random, $CellContext`heightstring = 
+             "Random point in subinterval used for height"; \
+$CellContext`leftlist + 
+             Map[Random[
+               Real, #]& , $CellContext`widthlist]]; $CellContext`heightlist = 
+          Map[$CellContext`f, $CellContext`selectlist]; $CellContext`arealist = \
+$CellContext`heightlist $CellContext`widthlist; {$CellContext`heightlist, \
+$CellContext`arealist}], $CellContext`ShowSlices[
+         Pattern[$CellContext`partition, 
+          Blank[]], 
+         Pattern[$CellContext`heightlist, 
+          Blank[]]] := Table[
+         $CellContext`Boxx[0, 
+          Part[$CellContext`heightlist, $CellContext`i], 
+          Part[$CellContext`partition, $CellContext`i], 
+          Part[$CellContext`partition, $CellContext`i + 1]], {$CellContext`i, 
+          1, Length[$CellContext`partition] - 1}], $CellContext`Boxx[
+         Pattern[$CellContext`bottom, 
+          Blank[]], 
+         Pattern[$CellContext`top, 
+          Blank[]], 
+         Pattern[$CellContext`left, 
+          Blank[]], 
+         Pattern[$CellContext`right, 
+          Blank[]]] := 
+       Line[{{$CellContext`left, $CellContext`bottom}, {$CellContext`right, \
+$CellContext`bottom}, {$CellContext`right, $CellContext`top}, \
+{$CellContext`left, $CellContext`top}, {$CellContext`left, \
+$CellContext`bottom}}], $DisplayFunction = Identity}; 
+     Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.6570640943881063`*^9, 3.657064126244362*^9, 3.65710777487426*^9, 
+   3.657136129817881*^9, 3.6571362772953167`*^9, 3.65721497886905*^9, {
+   3.657215031629343*^9, 3.657215053812582*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<Number of subintervals\>\"", ",", "\"\<percent error\>\""}], 
+       "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"50", ",", "0.242"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"51", ",", "0.23"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"52", ",", "0.219"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"53", ",", "0.209"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"54", ",", "0.2"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"55", ",", "0.191"}], "}"}]}], "}"}], "//", "Transpose"}], "//",
+    "TableForm"}], "//", "TeXForm"}]], "Input",
+ CellChangeTimes->{{3.6571366113584237`*^9, 3.657136718656561*^9}}],
+
+Cell["\<\
+\\begin{array}{ccccccc}
+ \\text{Number of subintervals} & 50 & 51 & 52 & 53 &
+   54 & 55 \\\\
+ \\text{percent error} & 0.242 & 0.23 & 0.219 & 0.209 &
+   0.2 & 0.191 \\\\
+\\end{array}\
+\>", "Output",
+ CellChangeTimes->{{3.6571366140515776`*^9, 3.6571366556939597`*^9}, {
+   3.6571367034466906`*^9, 3.657136719490608*^9}, 3.6572149793214507`*^9, {
+   3.657215031691743*^9, 3.657215053828182*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1050, 807},
+WindowMargins->{{260, Automatic}, {Automatic, 36}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+Magnification->1.25,
+FrontEndVersion->"10.2 for Microsoft Windows (64-bit) (July 29, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 3030, 79, 149, "Section"],
+Cell[CellGroupData[{
+Cell[3612, 103, 174, 2, 68, "Section"],
+Cell[3789, 107, 574, 11, 88, "Text"],
+Cell[4366, 120, 489, 11, 36, "Input"],
+Cell[4858, 133, 3205, 78, 382, "Input"],
+Cell[8066, 213, 2301, 61, 244, "Input"],
+Cell[10370, 276, 1452, 38, 152, "Input"],
+Cell[11825, 316, 3113, 77, 382, "Input"],
+Cell[14941, 395, 549, 10, 129, "Input"],
+Cell[15493, 407, 809, 20, 60, "Input"],
+Cell[16305, 429, 871, 23, 83, "Input"],
+Cell[17179, 454, 573, 12, 60, "Input"],
+Cell[17755, 468, 2484, 58, 405, "Input"],
+Cell[20242, 528, 595, 13, 60, "Input"],
+Cell[20840, 543, 4592, 97, 612, "Input"],
+Cell[25435, 642, 286, 8, 36, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[25758, 655, 200, 3, 86, "Section"],
+Cell[25961, 660, 214, 6, 36, "Input"],
+Cell[CellGroupData[{
+Cell[26200, 670, 2746, 67, 290, "Input"],
+Cell[28949, 739, 13420, 259, 705, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[42418, 1004, 111, 1, 86, "Section"],
+Cell[CellGroupData[{
+Cell[42554, 1009, 3374, 67, 244, "Input"],
+Cell[45931, 1078, 10893, 219, 473, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[56861, 1302, 771, 23, 128, "Input"],
+Cell[57635, 1327, 404, 10, 207, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
